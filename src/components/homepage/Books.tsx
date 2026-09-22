@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+
 import BookCrad from "../shared/BookCrad";
 import { Ibook } from "@/src/types/books.typs";
 
