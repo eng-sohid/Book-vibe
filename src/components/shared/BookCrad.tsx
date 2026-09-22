@@ -79,7 +79,7 @@ const BookCrad = ({ book }: IbookCardProps) => {
 
         <Link href={`/books/${book.bookId}`}>
           <button className="rounded-full bg-gradient-to-r from-purple-600 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-105">
-            Read More →
+            Details
           </button>
         </Link>
       </div>

@@ -3,18 +3,35 @@
 import { BooksContext } from "@/src/context/BooksContext";
 import { Ibook } from "@/src/types/books.typs";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 
-const ReadButton = ({ book }: { book: Ibook }) => {
-  const { readBooks, setReadBooks } = useContext(BooksContext);
+const ReadButton = ({ book }: { book?: Ibook } = {}) => {
+  const context = useContext(BooksContext);
 
-  const handleReadBook = () => {
+  if (!context || !book) {
+    return null;
+  }
+
+  const { readBooks, setReadBooks } = context;
+
+  const handleRead = () => {
+    const isExist = readBooks?.some(
+      (item: Ibook) => String(item.bookId) === String(book.bookId),
+    );
+
+    if (isExist) {
+      alert(`"${book.bookName}" is already in your Read List!`);
+      return;
+    }
+
     setReadBooks([...readBooks, book]);
-    alert(`You have read"${book.bookName}"`);
+    toast.success(`You have added "${book.bookName}" to Read List`);
   };
+
   return (
     <button
-      className="group flex h-14 flex-1 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 px-7 font-bold text-white shadow-lg shadow-purple-200 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-      onClick={() => handleReadBook()}
+      className="group flex h-14 flex-1 items-center justify-center gap-3 rounded-2xl bg-indigo-600 text-white font-medium shadow-md hover:bg-indigo-700 transition"
+      onClick={handleRead}
     >
       Read
     </button>

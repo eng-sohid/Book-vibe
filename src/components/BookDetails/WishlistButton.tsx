@@ -3,20 +3,50 @@
 import { BooksContext } from "@/src/context/BooksContext";
 import { Ibook } from "@/src/types/books.typs";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 
-const WishlistButton = ({ book }: { book: Ibook }) => {
-  const { wishlist, setwishlist } = useContext(BooksContext);
+const WishlistButton = ({ book }: { book?: Ibook } = {}) => {
+  const context = useContext(BooksContext);
 
-  const handleReadBook = () => {
+  if (!context || !book) {
+    return null;
+  }
+
+  const { wishlist, setwishlist, readBooks } = context;
+
+  const handleWishlist = () => {
+    // বইটি আগে থেকেই Read List-এ থাকলে Wishlist-এ এড হতে দেবে না
+    const isAlreadyRead = readBooks?.some(
+      (item: Ibook) => String(item.bookId) === String(book.bookId),
+    );
+
+    if (isAlreadyRead) {
+      alert(
+        `You have already read "${book.bookName}"! Cannot add to Wishlist.`,
+      );
+      return;
+    }
+
+    // Wishlist-এ আগে থেকেই আছে কিনা চেক
+    const isExist = wishlist?.some(
+      (item: Ibook) => String(item.bookId) === String(book.bookId),
+    );
+
+    if (isExist) {
+      alert(`"${book.bookName}" is already in your Wishlist!`);
+      return;
+    }
+
     setwishlist([...wishlist, book]);
-    alert(`You have read"${book.bookName}"`);
+    toast.success(`You have added "${book.bookName}" to Wishlist`);
   };
+
   return (
     <button
-      className="group flex h-14 flex-1 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 px-7 font-bold text-white shadow-lg shadow-purple-200 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-      onClick={() => WishlistButton()}
+      className="group flex h-14 flex-1 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium shadow-md hover:opacity-95 transition"
+      onClick={handleWishlist}
     >
-      Add to
+      Add to wishlist
     </button>
   );
 };
