@@ -12,7 +12,7 @@ const WishlistButton = ({ book }: { book?: Ibook } = {}) => {
     return null;
   }
 
-  const { wishlist, setwishlist, readBooks } = context;
+  const { wishlist, setWishlist, readBooks } = context;
 
   const handleWishlist = () => {
     // বইটি আগে থেকেই Read List-এ থাকলে Wishlist-এ এড হতে দেবে না
@@ -37,7 +37,7 @@ const WishlistButton = ({ book }: { book?: Ibook } = {}) => {
       return;
     }
 
-    setwishlist([...wishlist, book]);
+    setWishlist([...wishlist, book]);
     toast.success(`You have added "${book.bookName}" to Wishlist`);
   };
 

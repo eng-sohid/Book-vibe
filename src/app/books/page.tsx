@@ -1,15 +1,20 @@
 import React from "react";
-
 import BookCrad from "@/src/components/shared/BookCrad";
 import { Ibook } from "@/src/types/books.typs";
-import { PROXY_FILENAME } from "next/dist/lib/constants";
-import { error } from "console";
-
+export const dynamic = "force-dynamic";
 const getBooks = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SEVER_BASE_URL}/booksData.json`,
-    );
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SERVER_BASE_URL || "http://localhost:3000";
+
+    const response = await fetch(`${baseUrl}/booksData.json`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch books data");
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {
@@ -19,7 +24,7 @@ const getBooks = async () => {
 };
 
 const Books = async () => {
-  const booksData = await getBooks();
+  const booksData: Ibook[] = await getBooks();
 
   return (
     <section className="container mx-auto my-[70px] px-4">
@@ -44,9 +49,15 @@ const Books = async () => {
 
       {/* Books Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {booksData.map((book: Ibook, ind: number) => {
-          return <BookCrad key={ind} book={book} />;
-        })}
+        {booksData.length > 0 ? (
+          booksData.map((book: Ibook) => (
+            <BookCrad key={book.bookId} book={book} />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-lg font-semibold text-gray-500">
+            No books available right now.
+          </p>
+        )}
       </div>
     </section>
   );

@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="mb-4 flex items-center gap-3">
+            <Link href="/" className="mb-4 inline-flex items-center gap-3">
               <Image
                 src={Logo}
                 alt="Book Vibe Logo"
@@ -22,7 +22,7 @@ const Footer = () => {
               <span className="text-2xl font-black text-white">
                 Book<span className="text-emerald-400">Vibe</span>
               </span>
-            </div>
+            </Link>
 
             <p className="max-w-md text-sm leading-7 text-slate-400">
               Discover amazing books, keep track of your reading journey, and
@@ -82,7 +82,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  href="/listed-books"
+                  href="/books/listed-books"
                   className="transition hover:text-emerald-400"
                 >
                   Listed Books
@@ -91,7 +91,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  href="/pages-to-read"
+                  href="/read-books"
                   className="transition hover:text-emerald-400"
                 >
                   Pages to Read
@@ -106,27 +106,39 @@ const Footer = () => {
 
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="transition hover:text-emerald-400">
+                <Link
+                  href="/about"
+                  className="transition hover:text-emerald-400"
+                >
                   About Us
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="transition hover:text-emerald-400">
+                <Link
+                  href="/contact"
+                  className="transition hover:text-emerald-400"
+                >
                   Contact
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="transition hover:text-emerald-400">
+                <Link
+                  href="/privacy"
+                  className="transition hover:text-emerald-400"
+                >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="transition hover:text-emerald-400">
+                <Link
+                  href="/terms"
+                  className="transition hover:text-emerald-400"
+                >
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

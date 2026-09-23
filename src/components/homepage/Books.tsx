@@ -1,22 +1,10 @@
 import React from "react";
-
 import BookCrad from "../shared/BookCrad";
 import { Ibook } from "@/src/types/books.typs";
+import booksData from "@/public/booksData.json";
 
-const getBooks = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SEVER_BASE_URL}/booksData.json`,
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching books data:", error);
-    return [];
-  }
-};
-const Books = async () => {
-  const booksData = await getBooks();
+const Books = () => {
+  const books: Ibook[] = booksData as Ibook[];
 
   return (
     <section className="container mx-auto my-[70px] px-4">
@@ -41,9 +29,15 @@ const Books = async () => {
 
       {/* Books Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {booksData.map((book: Ibook, ind: number) => {
-          return <BookCrad key={ind} book={book} />;
-        })}
+        {books.length > 0 ? (
+          books.map((book: Ibook, ind: number) => {
+            return <BookCrad key={book.bookId || ind} book={book} />;
+          })
+        ) : (
+          <p className="col-span-full text-center text-lg font-semibold text-gray-500">
+            No books available right now.
+          </p>
+        )}
       </div>
     </section>
   );
